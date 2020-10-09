@@ -90,5 +90,26 @@ instacart %>%
 	)
 ```
 
+### Problem 2
+
+```{r}
+accel_df = 
+  read.csv("./accel_data.csv") %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    activity_1:activity_1440,
+    names_to = "activity_num", 
+     names_prefix = "activity_",
+    values_to = "activity_counts") %>% 
+  mutate(
+    day_category = case_when(
+      day %in% c("Monday", "Tuseday", "Wednesday", "Thursday", "Friday") ~ "Weekday",
+      day %in% c("Saturday", "Sunday") ~ "weekend",
+      TRUE      ~ ""
+  )) %>% 
+  relocate(day_id, week, day, day_category)
+```
+
+The resulting dataset has six variables: day ID, week, day, day category, activity number, activity counts. There are 50400 observations in this dataset.
 
 
